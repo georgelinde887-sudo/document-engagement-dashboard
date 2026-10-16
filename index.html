@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Engagement Dashboard — Investor & Diligence Analytics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #111827;
+      --accent: #3b82f6;
+      --text: #f9fafb;
+      --text-muted: #94a3b8;
+      --border: #1e293b;
+      --success: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px; }
+    .header { max-width: 1200px; margin: 0 auto 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+    .kpi-grid { max-width: 1200px; margin: 0 auto 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .kpi-title { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+    .kpi-value { font-size: 28px; font-weight: 800; color: #fff; margin-top: 6px; }
+    .kpi-sub { font-size: 12px; color: var(--success); margin-top: 4px; }
+    .main-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+    .card h2 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+    .bar-row { margin-bottom: 12px; font-size: 13px; }
+    .bar-header { display: flex; justify-content: space-between; margin-bottom: 4px; color: #cbd5e1; }
+    .bar-track { background: #0b0f19; height: 10px; border-radius: 5px; overflow: hidden; }
+    .bar-fill { background: var(--accent); height: 100%; border-radius: 5px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 12px; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+    td { padding: 12px; border-bottom: 1px solid #1f2937; }
+    .sponsor-box { max-width: 1200px; margin: 0 auto; padding: 16px 20px; background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+    .sponsor-box a { color: #60a5fa; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1 style="font-size: 22px;">Executive Document Engagement Dashboard</h1>
+      <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Audience attention telemetry, slide dwell-time heatmaps, and funnel drop-off curves.</p>
+    </div>
+    <div style="font-size: 12px; background: #1e293b; padding: 6px 12px; border-radius: 6px; color: #94a3b8;">
+      Sample Dataset: Series A Pitch Deck (10 Slides)
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-title">Total Read Sessions</div>
+      <div class="kpi-value" id="kpi-sessions">42</div>
+      <div class="kpi-sub">+18 this week</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Avg. Dwell Time</div>
+      <div class="kpi-value" id="kpi-dwell">2m 45s</div>
+      <div class="kpi-sub">+34s vs benchmark</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Deck Completion Rate</div>
+      <div class="kpi-value" id="kpi-completion">68%</div>
+      <div class="kpi-sub">Top decile retention</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Top Diligence Target</div>
+      <div class="kpi-value" style="font-size: 18px; line-height: 1.4; margin-top: 8px;">Slide 4: Unit Economics</div>
+      <div class="kpi-sub" style="color: #60a5fa;">52s average attention</div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <div class="card">
+      <h2>Slide-by-Slide Dwell Heatmap</h2>
+      <div id="heatmap-bars"></div>
+    </div>
+    <div class="card">
+      <h2>Funnel Retention Drop-Off</h2>
+      <div id="funnel-bars"></div>
+    </div>
+  </div>
+
+  <div class="card" style="max-width: 1200px; margin: 0 auto 24px;">
+    <h2>Top Engaged Institutional Viewers</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Investor / Recipient</th>
+          <th>Total Attention</th>
+          <th>Sessions</th>
+          <th>Last Viewed</th>
+        </tr>
+      </thead>
+      <tbody id="viewers-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="sponsor-box">
+    <span>Need real-time presentation analytics with native PowerPoint support and embedded video tracking?</span>
+    <a href="https://sendnow.live/powerpoint-presentation-analytics" target="_blank">Explore SendNow presentation dwell time analytics &rarr;</a>
+  </div>
+
+  <script src="src/dashboard-engine.js"></script>
+  <script>
+    const sampleData = [
+      { viewerEmail: "partner@sequoia.com", totalDwellSeconds: 240, completed: true, timestamp: "2026-10-15 14:20", pages: [
+        { page: 1, dwellSeconds: 20 }, { page: 2, dwellSeconds: 25 }, { page: 3, dwellSeconds: 30 }, { page: 4, dwellSeconds: 55 },
+        { page: 5, dwellSeconds: 20 }, { page: 6, dwellSeconds: 15 }, { page: 7, dwellSeconds: 25 }, { page: 8, dwellSeconds: 15 },
+        { page: 9, dwellSeconds: 20 }, { page: 10, dwellSeconds: 15 }
+      ]},
+      { viewerEmail: "gp@benchmark.com", totalDwellSeconds: 195, completed: true, timestamp: "2026-10-15 16:05", pages: [
+        { page: 1, dwellSeconds: 15 }, { page: 2, dwellSeconds: 20 }, { page: 3, dwellSeconds: 25 }, { page: 4, dwellSeconds: 60 },
+        { page: 5, dwellSeconds: 15 }, { page: 6, dwellSeconds: 10 }, { page: 7, dwellSeconds: 20 }, { page: 8, dwellSeconds: 10 },
+        { page: 9, dwellSeconds: 10 }, { page: 10, dwellSeconds: 10 }
+      ]},
+      { viewerEmail: "principal@a16z.com", totalDwellSeconds: 110, completed: false, timestamp: "2026-10-16 09:30", pages: [
+        { page: 1, dwellSeconds: 25 }, { page: 2, dwellSeconds: 30 }, { page: 3, dwellSeconds: 20 }, { page: 4, dwellSeconds: 35 }
+      ]},
+      { viewerEmail: "associate@accel.com", totalDwellSeconds: 65, completed: false, timestamp: "2026-10-16 11:15", pages: [
+        { page: 1, dwellSeconds: 35 }, { page: 2, dwellSeconds: 30 }
+      ]}
+    ];
+
+    const slideTitles = [
+      "1. Title & Vision", "2. Core Problem", "3. Solution Architecture", "4. Unit Economics & Gross Margin",
+      "5. Product Roadmap", "6. Competitive Landscape", "7. Historical Traction", "8. Leadership Team",
+      "9. Pro-Forma Forecast", "10. Series A Ask & Use of Funds"
+    ];
+
+    const engine = new DashboardEngine(sampleData);
+    const overview = engine.getOverview(10);
+
+    document.getElementById('kpi-sessions').textContent = overview.totalSessions;
+    document.getElementById('kpi-dwell').textContent = `${Math.floor(overview.averageDwellSeconds / 60)}m ${overview.averageDwellSeconds % 60}s`;
+    document.getElementById('kpi-completion').textContent = `${overview.completionRatePercent}%`;
+
+    // Render Heatmap
+    const maxDwell = Math.max(...overview.pageHeatmap.map(x => x.averageDwellSeconds), 1);
+    const heatmapContainer = document.getElementById('heatmap-bars');
+    overview.pageHeatmap.forEach((p, idx) => {
+      const pct = Math.round((p.averageDwellSeconds / maxDwell) * 100);
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+      row.innerHTML = `
+        <div class="bar-header"><span>${slideTitles[idx]}</span><span style="font-weight: 600;">${p.averageDwellSeconds}s</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width: ${pct}%;"></div></div>
+      `;
+      heatmapContainer.appendChild(row);
+    });
+
+    // Render Funnel
+    const funnelContainer = document.getElementById('funnel-bars');
+    overview.funnelDropoff.forEach((p, idx) => {
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+      row.innerHTML = `
+        <div class="bar-header"><span>${slideTitles[idx]}</span><span style="font-weight: 600;">${p.retentionRatePercent}%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width: ${p.retentionRatePercent}%; background: ${p.retentionRatePercent > 50 ? '#10b981' : '#f59e0b'};"></div></div>
+      `;
+      funnelContainer.appendChild(row);
+    });
+
+    // Render Viewers
+    const viewersTbody = document.getElementById('viewers-tbody');
+    overview.topViewers.forEach(v => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong style="color: #fff;">${v.email}</strong></td>
+        <td>${Math.floor(v.totalDwell / 60)}m ${v.totalDwell % 60}s</td>
+        <td>${v.sessions} session(s)</td>
+        <td style="color: var(--text-muted);">${v.lastViewedAt}</td>
+      `;
+      viewersTbody.appendChild(tr);
+    });
+  </script>
+</body>
+</html>

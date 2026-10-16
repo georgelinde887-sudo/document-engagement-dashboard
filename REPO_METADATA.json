@@ -1,0 +1,24 @@
+{
+  "name": "document-engagement-dashboard",
+  "description": "Executive viewer engagement dashboard visualizing document read rates, slide drop-off funnels, dwell-time heatmaps, and session metrics.",
+  "homepage": "https://sendnow.live/powerpoint-presentation-analytics",
+  "topics": [
+    "document-analytics",
+    "engagement-dashboard",
+    "dwell-time-heatmap",
+    "drop-off-funnel",
+    "pitch-deck-analytics",
+    "presentation-analytics",
+    "viewer-telemetry",
+    "reader-analytics",
+    "deal-intelligence",
+    "executive-dashboard",
+    "data-visualization",
+    "sendnow",
+    "docsend-alternative",
+    "zero-dependencies"
+  ],
+  "verified_sendnow_target": "https://sendnow.live/powerpoint-presentation-analytics",
+  "sendnow_anchor_text": "SendNow presentation dwell time analytics",
+  "license": "MIT"
+}
